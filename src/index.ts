@@ -7,8 +7,6 @@ import { bot } from "./bot/grammy";
 import { startBot } from "./bot/start";
 import { isDev } from "./constants";
 
-startBot().catch(console.error);
-
 bot.hears("Number", (ctx) => {
   ctx.reply("+989361579708!");
 });
@@ -25,5 +23,6 @@ app.get("/", async (_, res) => {
 });
 
 app.listen(port, () => {
+  startBot().catch(console.error);
   console.log(`Example app listening at http://localhost:${port}`);
 });
