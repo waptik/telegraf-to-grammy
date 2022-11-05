@@ -20,7 +20,11 @@ app.get("/", async (_, res) => {
   res.json({ Hello: "World" });
 });
 
-app.listen(port, async () => {
+app.get("/start", async (_, res) => {
   await startBot().catch(console.error);
+  res.json("Bot started");
+});
+
+app.listen(port, async () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
