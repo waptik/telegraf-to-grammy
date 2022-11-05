@@ -11,6 +11,10 @@ bot.hears("Number", (ctx) => {
   ctx.reply("+989361579708!");
 });
 
+bot.command("start", (ctx) => {
+  ctx.reply("Welcome!");
+});
+
 const app = express();
 const port = process.env.PORT || 3333;
 
