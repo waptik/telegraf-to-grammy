@@ -33,7 +33,7 @@ app.post(`/${BOT_TOKEN}`, (req, res) => {
 app.use(`/${BOT_TOKEN}`, webhookCallback(bot));
 
 app.get("/", async (_, res) => {
-  res.json({ Hello: "World" });
+  res.json({ Hello: "World", env: process.env.NODE_ENV });
 });
 
 app.listen(PORT, async () => {
