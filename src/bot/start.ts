@@ -18,25 +18,29 @@ const startTelegramBotInDev = async () => {
 };
 
 const startTelegramBotInProduction = async () => {
+  const webhookUrl = WEBHOOK_URL.startsWith("https")
+    ? WEBHOOK_URL
+    : `https://${WEBHOOK_URL}`;
+
   try {
     console.info("fetching  webhook info");
     const webhookInfo = await bot.api.getWebhookInfo();
     console.info(`existing webhook info fetched: ${webhookInfo.url}`);
 
-    if (webhookInfo.url === WEBHOOK_URL) {
+    if (webhookInfo.url === webhookUrl) {
       console.info("Sorry, same url, i don't wanna waste my time here.");
     } else {
       console.info("deleting existing webhook");
       await bot.api.deleteWebhook();
       console.info("existing webhook deleted");
 
-      console.info(`setting new webhook to: ${WEBHOOK_URL}`);
-      await bot.api.setWebhook(WEBHOOK_URL);
-      console.info(`bot webhook set to: ${WEBHOOK_URL}`);
+      console.info(`setting new webhook to: ${webhookUrl}`);
+      await bot.api.setWebhook(webhookUrl);
+      console.info(`bot webhook set to: ${webhookUrl}`);
 
       await bot.api.sendMessage(
         CHAT_ID,
-        `Hi admin. Webhook is now connected at ${WEBHOOK_URL}`
+        `Hi admin. Webhook is now connected at ${webhookUrl}`
       );
     }
   } catch (err) {
