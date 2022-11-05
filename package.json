@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "main": "dist/index.js",
-  "author": "Faraz Patankar",
+  "author": "Stephane Mensah",
   "license": "MIT",
   "scripts": {
     "dev": "nodemon src/index.ts",

@@ -7,18 +7,11 @@ import { bot } from "./bot/grammy";
 import { startBot } from "./bot/start";
 import { BOT_TOKEN, PORT } from "./constants";
 
-bot.hears("Number", (ctx) => {
-  ctx.reply("+989361579708!");
-});
-
-bot.command("start", (ctx) => {
-  ctx.reply("Welcome!");
-});
-
 const app = express();
-app.use(express.urlencoded({ extended: false })); //Parse URL-encoded bodies
 
+app.use(express.urlencoded({ extended: false })); //Parse URL-encoded bodies
 app.use(express.json());
+app.use(`/${BOT_TOKEN}`, webhookCallback(bot));
 
 //async await
 app.post(`/${BOT_TOKEN}`, (req, res) => {
@@ -29,8 +22,6 @@ app.post(`/${BOT_TOKEN}`, (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-
-app.use(`/${BOT_TOKEN}`, webhookCallback(bot));
 
 app.get("/", async (_, res) => {
   res.json({ Hello: "World", env: process.env.NODE_ENV });
