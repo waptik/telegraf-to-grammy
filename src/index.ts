@@ -5,7 +5,7 @@ dotenv.config();
 
 import { bot } from "./bot/grammy";
 import { startBot } from "./bot/start";
-import { BOT_TOKEN } from "./constants";
+import { BOT_TOKEN, PORT } from "./constants";
 
 bot.hears("Number", (ctx) => {
   ctx.reply("+989361579708!");
@@ -16,19 +16,27 @@ bot.command("start", (ctx) => {
 });
 
 const app = express();
-const port = process.env.PORT || 3333;
+app.use(express.urlencoded({ extended: false })); //Parse URL-encoded bodies
 
-app.post(`/${BOT_TOKEN}`, webhookCallback(bot, "express"));
+app.use(express.json());
+
+//async await
+app.post(`/${BOT_TOKEN}`, (req, res) => {
+  try {
+    console.log("reqbody", req.body);
+    res.json({ message: req.body });
+  } catch (error: any) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+app.use(`/${BOT_TOKEN}`, webhookCallback(bot));
 
 app.get("/", async (_, res) => {
   res.json({ Hello: "World" });
 });
 
-app.get("/start", async (_, res) => {
+app.listen(PORT, async () => {
   await startBot().catch(console.error);
-  res.json("Bot started");
-});
-
-app.listen(port, async () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`Example app listening at http://localhost:${PORT}`);
 });
