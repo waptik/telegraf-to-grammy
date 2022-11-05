@@ -1,13 +1,23 @@
 {
+  "extends": "@tsconfig/recommended/tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
-
     "incremental": true,
-    "target": "es6",
-    "module": "commonjs",
-    "strict": true,
-    "esModuleInterop": true,
+    // "target": "ES2021",
+    "moduleResolution": "node16",
+    "esModuleInterop": true, /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
     "skipLibCheck": true,
+    "noImplicitReturns": true, /* Enable error reporting for codepaths that do not explicitly return in a function. */
+    "noUnusedParameters": false,
+    "noImplicitAny": false,
+    "noImplicitThis": false,
     "forceConsistentCasingInFileNames": true
-  }
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }
