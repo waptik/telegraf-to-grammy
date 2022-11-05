@@ -1,4 +1,4 @@
-import { CHAT_ID, isDev, WEBHOOK_URL } from "../constants";
+import { BOT_TOKEN, CHAT_ID, isDev, WEBHOOK_URL } from "../constants";
 import { bot } from "./grammy";
 
 const startTelegramBotInDev = async () => {
@@ -18,9 +18,10 @@ const startTelegramBotInDev = async () => {
 };
 
 const startTelegramBotInProduction = async () => {
-  const webhookUrl = WEBHOOK_URL.startsWith("https")
+  let webhookUrl = WEBHOOK_URL.startsWith("https")
     ? WEBHOOK_URL
     : `https://${WEBHOOK_URL}`;
+  webhookUrl = `${webhookUrl}/${BOT_TOKEN}`;
 
   try {
     console.info("fetching  webhook info");

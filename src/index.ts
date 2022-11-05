@@ -5,7 +5,7 @@ dotenv.config();
 
 import { bot } from "./bot/grammy";
 import { startBot } from "./bot/start";
-import { isDev } from "./constants";
+import { BOT_TOKEN } from "./constants";
 
 bot.hears("Number", (ctx) => {
   ctx.reply("+989361579708!");
@@ -14,15 +14,13 @@ bot.hears("Number", (ctx) => {
 const app = express();
 const port = process.env.PORT || 3333;
 
-if (!isDev) {
-  app.use(webhookCallback(bot, "express"));
-}
+app.post(`/${BOT_TOKEN}`, webhookCallback(bot, "express"));
 
 app.get("/", async (_, res) => {
   res.json({ Hello: "World" });
 });
 
-app.listen(port, () => {
-  startBot().catch(console.error);
+app.listen(port, async () => {
+  await startBot().catch(console.error);
   console.log(`Example app listening at http://localhost:${port}`);
 });
